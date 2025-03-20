@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/03/20 18:11:59 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:58:34 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int	main(int argc, char **argv)
 		printf("argumentos no validos\n");
 		return (1);
 	}
-	// if (!parse_argv(argc, argv + 1))
+	// parse_argv(&table, argc - 1, argv + 1);
+	// int i = 0;
+	// while (i < table.philos[0].num_philos)
+	// {
+	// 	printf("id: %d\n", table.philos[i].id);
+	// 	i++;
+	// }
 	return (0);
 }

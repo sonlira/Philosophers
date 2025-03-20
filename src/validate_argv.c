@@ -6,11 +6,25 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:58:13 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/03/20 18:21:25 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/03/20 22:34:05 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	message(int code)
+{
+	if (code == 0)
+		write_error("Number of philosophers not valid");
+	else if (code == 1)
+		write_error("Invalid time to die");
+	else if (code == 2)
+		write_error("Invalid time to eat");
+	else if (code == 3)
+		write_error("Invalid time to sleep");
+	else if (code == 4)
+		write_error("Invalid number of times each philosopher must eat");
+}
 
 static int	is_a_valid_number(char *str)
 {
@@ -45,11 +59,14 @@ int	is_valid_argv(char **argv)
 	i = 0;
 	while (argv[i])
 	{
+
 		if (!is_a_valid_number(argv[i]))
-			return (0);
+			return (message(i), 0);
 		if (!is_greater_than_zero(argv[i]))
-			return (0);
+			return (message(i), 0);
 		i++;
 	}
+	if (ft_atoi64(argv[0]) < MIN || ft_atoi64(argv[0]) > MAX)
+		return (message(0), 0);
 	return (1);
 }
