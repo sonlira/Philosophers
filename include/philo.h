@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/03/12 18:42:30 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:11:44 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,21 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
-
-typedef struct s_philos
-{
-	long long	time_whitout_eat;
-	int			index;
-}	t_philos;
-
+# include <stdint.h>
 
 typedef struct s_philo
 {
-	int			number_of_philosophers;
-	long long	time_to_die;
-	long long	time_to_eat;
-	long long	time_to_sleep;
-	int			min_to_eat;
-	t_philos	*philos;
-	int			*forks;
+	int			id;
+	uint64_t	last_meal;
+	uint64_t	time_to_die;
+	uint64_t	time_to_eat;
+	uint64_t	time_to_sleep;
+	uint64_t	start_time;
+	int			num_philos;
+	int			num_times_to_eat;
 }	t_philo;
 
+uint64_t	ft_atoi64(const char *str);
+int			is_valid_argv(char **argv);
+int			parse_argv(int argc, char **argv);
 #endif
