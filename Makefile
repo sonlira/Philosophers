@@ -6,18 +6,18 @@
 #    By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 18:42:38 by abaldelo          #+#    #+#              #
-#    Updated: 2025/03/21 20:11:24 by abaldelo         ###   ########.fr        #
+#    Updated: 2025/04/02 21:17:27 by abaldelo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I include
+CFLAGS = -Wall -Wextra -Werror -pthread -I include
 
 SRCDIR = src
 OBJDIR = obj
 
-SRCS = src/main.c src/validate_argv.c src/utils.c
+SRCS = src/main.c src/validate.c src/utils.c src/init.c
 OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 all: $(NAME)
