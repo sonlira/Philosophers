@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/03 14:45:24 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:30:27 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ typedef struct s_config
 	int		time_to_sleep;
 	int		must_eat;
 	long	start_time;
+	int		is_dead;
 	t_mtx	meal_look;
+	t_mtx	dead_look;
 	t_mtx	*forks;
 	t_philo	*philos;
+	pthread_t	monitor;
 }	t_config;
 
 
@@ -55,11 +58,15 @@ int		ft_atoi(const char *str);
 void	write_error(const char *s);
 void	destroy_mutexes(t_mtx *mtx, size_t size);
 long	get_timestamp_ms(void);
+void	safe_sleep(t_philo *philo, long time);
 // validate.c
 int		parse_args(int ac, char **av, t_config *config);
 // init.c
 int		init_all(t_config *config);
 // routine.c
 void	*philo_routine(void *arg);
+// monitor.c
+void	*monitor(void *arg);
+int		check_death(t_philo *philo);
 
 #endif

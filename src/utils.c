@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:56:21 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/02 21:16:04 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:29:37 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,13 @@ long	get_timestamp_ms(void)
 
 	gettimeofday(&now, NULL);
 	return (now.tv_sec * 1000 + now.tv_usec / 1000);
+}
+
+void	safe_sleep(t_philo *philo, long time)
+{
+	long	start;
+
+	start = get_timestamp_ms();
+	while (!check_death(philo) && get_timestamp_ms() - start < time)
+		usleep(100);
 }
