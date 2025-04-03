@@ -6,11 +6,39 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/02 20:35:13 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:09:41 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	join_threads(t_config *config)
+{
+	int	i;
+
+	i = 0;
+	while (i < config->number_philos)
+	{
+		if (pthread_join(config->philos[i].thread, NULL) != 0)
+			return (write_error("Al unir los hilos"), -1);
+		i++;
+	}
+	return (0);
+}
+
+int	start_threads(t_config *config)
+{
+	int	i;
+
+	i = 0;
+	while (i < config->number_philos)
+	{
+		if (pthread_create(&config->philos[i].thread, NULL, philo_routine, &config->philos[i]) != 0)
+			return (write_error("Al crear los hilos"), -1);
+		i++;
+	}
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
@@ -18,11 +46,15 @@ int	main(int ac, char **av)
 	t_mtx		forks[MAX_PHILOS];
 	t_config	config;
 
-	if (parse_args(ac, av, &config) != 0)
-		return (1);
 	config.philos = philos;
 	config.forks = forks;
+	if (parse_args(ac, av, &config) != 0)
+		return (1);
 	if (init_all(&config) != 0)
+		return (1);
+	if (start_threads(&config) != 0)
+		return (1);
+	if (join_threads(&config) != 0)
 		return (1);
 	return (0);
 }

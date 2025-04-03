@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/02 21:14:28 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:45:24 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,7 @@
 # include <unistd.h>
 # include <limits.h>
 
-
 typedef pthread_mutex_t	t_mtx;
-
-// enum
-// {
-// 	MAX = 300,
-// 	MIN = 6,
-// 	OK = 1,
-// 	KO = 0,
-// };
-
-// typedef struct s_philo
-// {
-// 	int					id;
-// 	uint64_t			last_meal;
-// 	uint64_t			time_to_die;
-// 	uint64_t			time_to_eat;
-// 	uint64_t			time_to_sleep;
-// 	uint64_t			start_time;
-// 	int					num_times_to_eat;
-// 	int					num_philos;
-// 	pthread_mutex_t		*r_fork;
-// 	pthread_mutex_t		*l_fork;
-// }	t_philo;
-
-// typedef struct s_table
-// {
-
-// 	t_philo	*philos;
-// }	t_taple;
 
 typedef struct s_philo
 {
@@ -73,6 +44,7 @@ typedef struct s_config
 	int		time_to_sleep;
 	int		must_eat;
 	long	start_time;
+	t_mtx	meal_look;
 	t_mtx	*forks;
 	t_philo	*philos;
 }	t_config;
@@ -87,5 +59,7 @@ long	get_timestamp_ms(void);
 int		parse_args(int ac, char **av, t_config *config);
 // init.c
 int		init_all(t_config *config);
+// routine.c
+void	*philo_routine(void *arg);
 
 #endif
