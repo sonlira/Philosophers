@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/03 19:30:27 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:13:59 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ typedef struct s_philo
 
 typedef struct s_config
 {
-	int		number_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat;
-	long	start_time;
-	int		is_dead;
-	t_mtx	meal_look;
-	t_mtx	dead_look;
-	t_mtx	*forks;
-	t_philo	*philos;
+	int			number_philos;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			must_eat;
+	long		start_time;
+	int			is_dead;
+	int			full_count;
+	t_mtx		meal_look;
+	t_mtx		dead_look;
+	t_mtx		full_lock;
+	t_mtx		*forks;
+	t_philo		*philos;
 	pthread_t	monitor;
 }	t_config;
 

@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:26:05 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/03 19:17:32 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:18:18 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,21 @@ static int	init_mutexes(t_config *config)
 		pthread_mutex_destroy(&config->dead_look);
 		return (message(0), -1);
 	}
+	if (pthread_mutex_init(&config->full_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&config->full_lock);
+		return (message(0), -1);
+	}
 	return (0);
 }
 
 int	init_all(t_config *config)
 {
-	config->start_time = get_timestamp_ms();
 	config->is_dead = 0;
+	config->full_count = 0;
 	if (init_mutexes(config) != 0)
 		return (-1);
+	config->start_time = get_timestamp_ms();
 	if (init_philosophers(config) != 0)
 		return (-1);
 	return (0);

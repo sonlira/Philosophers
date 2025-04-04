@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:51:55 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/04 15:57:38 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:30:14 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ void	*monitor(void *arg)
 			}
 			i++;
 		}
+		pthread_mutex_lock(&config->full_lock);
+		if (config->must_eat != -1 && config->full_count >= config->number_philos)
+		{
+			pthread_mutex_lock(&config->dead_look);
+			config->is_dead = 1;
+			pthread_mutex_unlock(&config->dead_look);
+			pthread_mutex_unlock(&config->full_lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&config->full_lock);
 		usleep(1000);
 	}
 	return (NULL);

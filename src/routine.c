@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:27 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/04 15:46:09 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:34:48 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,15 @@ static void	eat(t_philo *philo)
 	pthread_mutex_lock(&config->meal_look);
 	philo->last_meal = get_timestamp_ms();
 	philo->meals_eaten++;
+	if (config->must_eat != -1 && philo->meals_eaten == config->must_eat)
+	{
+		pthread_mutex_lock(&config->full_lock);
+		config->full_count++;
+		pthread_mutex_unlock(&config->full_lock);
+	}
 	pthread_mutex_unlock(&config->meal_look);
 	if (!check_death(philo))
-		printf("%ld Filósofo %d: está comiendo\n",get_timestamp_ms() - config->start_time, philo->id);
-	// usleep((config->time_to_eat * 1000));
+		printf("%ld Filósofo %d: está comiendooooooooo\n",get_timestamp_ms() - config->start_time, philo->id);
 	safe_sleep(philo, config->time_to_eat);
 	
 }
