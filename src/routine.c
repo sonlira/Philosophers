@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:27 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/03 20:38:45 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:46:09 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	check_death(t_philo *philo)
 
 static void	thinking(t_philo *philo)
 {
-	printf("%ld Filóso %d está pensando\n", get_timestamp_ms() - philo->config->start_time, philo->id);
+	t_config	*config;
+
+	config = philo->config;
+	if (!check_death(philo))
+		printf("%ld Filóso %d está pensando\n", get_timestamp_ms() - config->start_time, philo->id);
 }
 
 static void	take_forks(t_philo *philo)
@@ -54,9 +58,10 @@ static void	eat(t_philo *philo)
 	philo->last_meal = get_timestamp_ms();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&config->meal_look);
-	printf("%ld Filósofo %d: está comiendo\n",get_timestamp_ms() - config->start_time, philo->id);
-	usleep((config->time_to_eat * 1000));
-	// safe_sleep(philo, (config->time_to_eat * 1000));
+	if (!check_death(philo))
+		printf("%ld Filósofo %d: está comiendo\n",get_timestamp_ms() - config->start_time, philo->id);
+	// usleep((config->time_to_eat * 1000));
+	safe_sleep(philo, config->time_to_eat);
 	
 }
 
@@ -69,9 +74,13 @@ static void	release_forks(t_philo *philo)
 
 static void	sleeping(t_philo *philo)
 {
-	printf("%ld Filósofo %d: está durmiendo\n",get_timestamp_ms() - philo->config->start_time, philo->id);
-	usleep(philo->config->time_to_sleep * 1000);
-	// safe_sleep(philo, (philo->config->time_to_sleep * 1000));
+	t_config *config;
+
+	config = philo->config;
+	if (!check_death(philo))
+		printf("%ld Filósofo %d: está durmiendo\n",get_timestamp_ms() - philo->config->start_time, philo->id);
+	// usleep(philo->config->time_to_sleep * 1000);
+	safe_sleep(philo, config->time_to_sleep);
 }
 
 void	*philo_routine(void *arg)
@@ -81,10 +90,16 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (!check_death(philo))
 	{
+		// if (check_death(philo))
+		// 	return (NULL);
 		thinking(philo);
 		take_forks(philo);
+		// if (check_death(philo))
+		// 	return (NULL);
 		eat(philo);
 		release_forks(philo);
+		// if (check_death(philo))
+		// 	return (NULL);
 		sleeping(philo);
 	}
 	// printf("Filosofo %d: hola desde routine. \n", philo->id);
