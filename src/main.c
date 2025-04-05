@@ -6,29 +6,33 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/03 18:33:36 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:39:30 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start_threads(t_config *config)
+static int	start_threads(t_config *config)
 {
-	int	i;
+	int		i;
+	int		rsul;
+	t_philo	*philo;
 
 	i = 0;
+	philo = config->philos;
 	while (i < config->number_philos)
 	{
-		if (pthread_create(&config->philos[i].thread, NULL, philo_routine, &config->philos[i]) != 0)
-			return (write_error("Al crear los hilos"), -1);
+		rsul = pthread_create(&philo[i].thread, NULL, philo_routine, &philo[i]);
+		if (rsul != 0)
+			return (write_error("When creating the threads"), -1);
 		i++;
 	}
 	if (pthread_create(&config->monitor, NULL, monitor, config) != 0)
-		return (write_error("Al crear los hilos"), -1);
+		return (write_error("When creating the threads"), -1);
 	return (0);
 }
 
-int	join_threads(t_config *config)
+static int	join_threads(t_config *config)
 {
 	int	i;
 
@@ -36,11 +40,11 @@ int	join_threads(t_config *config)
 	while (i < config->number_philos)
 	{
 		if (pthread_join(config->philos[i].thread, NULL) != 0)
-			return (write_error("Al unir los hilos"), -1);
+			return (write_error("By joining the threads"), -1);
 		i++;
 	}
 	if (pthread_join(config->monitor, NULL) != 0)
-		return (write_error("Al unir los hilos"), -1);
+		return (write_error("By joining the threads"), -1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/04 21:13:59 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:59:15 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ typedef struct s_config
 	pthread_t	monitor;
 }	t_config;
 
-
 // utils.c
-int		ft_atoi(const char *str);
+int		check_death(t_philo *philo);
 void	write_error(const char *s);
 void	destroy_mutexes(t_mtx *mtx, size_t size);
 long	get_timestamp_ms(void);
@@ -69,6 +68,6 @@ int		init_all(t_config *config);
 void	*philo_routine(void *arg);
 // monitor.c
 void	*monitor(void *arg);
-int		check_death(t_philo *philo);
+void	release_forks(t_philo *philo);
 
 #endif

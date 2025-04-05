@@ -6,40 +6,11 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:56:21 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/04 15:43:47 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:32:46 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	ft_atoi(const char *str)
-{
-	long		num;
-	int			sign;
-	size_t		i;
-
-	num = 0;
-	sign = 1;
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		num = num * 10 + (str[i] - '0');
-		if ((sign == 1 && num > INT_MAX) || (sign == -1 && (-num) < INT_MIN))
-			return (0);
-		i++;
-	}
-	if (str[i] != '\0')
-		return (0);
-	return ((int)(num * sign));
-}
 
 void	write_error(const char *s)
 {
@@ -84,4 +55,14 @@ void	safe_sleep(t_philo *philo, long time)
 	start = get_timestamp_ms();
 	while (!check_death(philo) && get_timestamp_ms() - start < time)
 		usleep(100);
+}
+
+int	check_death(t_philo *philo)
+{
+	int	is_dead;
+
+	pthread_mutex_lock(&philo->config->dead_look);
+	is_dead = philo->config->is_dead;
+	pthread_mutex_unlock(&philo->config->dead_look);
+	return (is_dead);
 }

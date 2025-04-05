@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:26:05 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/04 21:18:18 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:06:57 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,32 @@ static int	init_philosophers(t_config *config)
 	return (0);
 }
 
+static int	init_extra_mutexes(t_config *config)
+{
+	if (pthread_mutex_init(&config->meal_look, NULL) != 0)
+	{
+		destroy_mutexes(config->forks, config->number_philos);
+		pthread_mutex_destroy(&config->meal_look);
+		return (-1);
+	}
+	if (pthread_mutex_init(&config->dead_look, NULL) != 0)
+	{
+		destroy_mutexes(config->forks, config->number_philos);
+		pthread_mutex_destroy(&config->meal_look);
+		pthread_mutex_destroy(&config->dead_look);
+		return (-1);
+	}
+	if (pthread_mutex_init(&config->full_lock, NULL) != 0)
+	{
+		destroy_mutexes(config->forks, config->number_philos);
+		pthread_mutex_destroy(&config->meal_look);
+		pthread_mutex_destroy(&config->dead_look);
+		pthread_mutex_destroy(&config->full_lock);
+		return (-1);
+	}
+	return (0);
+}
+
 static int	init_mutexes(t_config *config)
 {
 	int	i;
@@ -58,21 +84,8 @@ static int	init_mutexes(t_config *config)
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&config->meal_look, NULL) != 0)
-	{
-		pthread_mutex_destroy(&config->meal_look);
+	if (init_extra_mutexes(config) != 0)
 		return (message(0), -1);
-	}
-	if (pthread_mutex_init(&config->dead_look, NULL) != 0)
-	{
-		pthread_mutex_destroy(&config->dead_look);
-		return (message(0), -1);
-	}
-	if (pthread_mutex_init(&config->full_lock, NULL) != 0)
-	{
-		pthread_mutex_destroy(&config->full_lock);
-		return (message(0), -1);
-	}
 	return (0);
 }
 
