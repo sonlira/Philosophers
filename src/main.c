@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:44 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:39:30 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:34:45 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,9 @@ int	main(int ac, char **av)
 		return (1);
 	if (join_threads(&config) != 0)
 		return (1);
+	destroy_mutexes(config.forks, config.number_philos);
+	pthread_mutex_destroy(&config.meal_look);
+	pthread_mutex_destroy(&config.dead_look);
+	pthread_mutex_destroy(&config.full_lock);
 	return (0);
 }
