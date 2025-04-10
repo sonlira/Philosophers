@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:10:37 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:59:15 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:06:32 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	t_mtx			*left_fork;
 	t_mtx			*right_fork;
 	long			last_meal;
+	long			start_time;
 	int				meals_eaten;
 	struct s_config	*config;
 }	t_philo;
@@ -43,7 +44,6 @@ typedef struct s_config
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			must_eat;
-	long		start_time;
 	int			is_dead;
 	int			full_count;
 	t_mtx		meal_look;

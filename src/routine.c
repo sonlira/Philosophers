@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:05:27 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:50:56 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:06:19 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	thinking(t_philo *philo)
 	config = philo->config;
 	if (!check_death(philo))
 		printf("%ld %d is thinking\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 }
 
 static void	take_forks(t_philo *philo)
@@ -32,22 +32,22 @@ static void	take_forks(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		if (!check_death(philo))
 			printf("%ld %d has taken a fork\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 		pthread_mutex_lock(philo->left_fork);
 		if (!check_death(philo))
 			printf("%ld %d has taken a fork\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->left_fork);
 		if (!check_death(philo))
 			printf("%ld %d has taken a fork\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 		pthread_mutex_lock(philo->right_fork);
 		if (!check_death(philo))
 			printf("%ld %d has taken a fork\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 	}
 }
 
@@ -68,7 +68,7 @@ static void	eat(t_philo *philo)
 	pthread_mutex_unlock(&config->meal_look);
 	if (!check_death(philo))
 		printf("%ld %d is eating\n"\
-			, get_timestamp_ms() - config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 	safe_sleep(philo, config->time_to_eat);
 }
 
@@ -79,7 +79,7 @@ static void	sleeping(t_philo *philo)
 	config = philo->config;
 	if (!check_death(philo))
 		printf("%ld %d is sleeping\n"\
-			, get_timestamp_ms() - philo->config->start_time, philo->id);
+			, get_timestamp_ms() - philo->start_time, philo->id);
 	safe_sleep(philo, config->time_to_sleep);
 }
 
@@ -88,6 +88,12 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->config->number_philos == 1)
+	{
+		printf("%ld %d has taken a fork\n"\
+			, get_timestamp_ms() - philo->start_time, philo->id);
+		return (NULL);
+	}
 	while (!check_death(philo))
 	{
 		thinking(philo);

@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:58:13 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:47:14 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:06:12 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	ft_atoi(const char *str)
 
 static int	check_the_values(int ac, t_config *config)
 {
-	if (config->number_philos < 2 || config->number_philos > MAX_PHILOS)
+	if (config->number_philos <= 0 || config->number_philos > MAX_PHILOS)
 		return (message(1), -1);
 	if (config->time_to_die <= 0)
 		return (message(2), -1);

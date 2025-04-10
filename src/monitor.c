@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:51:55 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:43:32 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:06:27 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	loop_to_check_death(t_config *cfg)
 			cfg->is_dead = 1;
 			pthread_mutex_unlock(&cfg->dead_look);
 			printf("%ld %d is died\n"\
-				, now - cfg->start_time, cfg->philos[i].id);
+				, now - cfg->philos[i].start_time, cfg->philos[i].id);
 			return (-1);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: abaldelo <abaldelo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:26:05 by abaldelo          #+#    #+#             */
-/*   Updated: 2025/04/05 16:06:57 by abaldelo         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:31:50 by abaldelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static int	init_philosophers(t_config *config)
 		philos[i].right_fork = &config->forks[(i + 1) % config->number_philos];
 		philos[i].config = config;
 		philos[i].meals_eaten = 0;
-		philos[i].last_meal = config->start_time;
+		philos[i].last_meal = get_timestamp_ms();
+		philos[i].start_time = get_timestamp_ms();
 		i++;
 	}
 	return (0);
@@ -95,7 +96,6 @@ int	init_all(t_config *config)
 	config->full_count = 0;
 	if (init_mutexes(config) != 0)
 		return (-1);
-	config->start_time = get_timestamp_ms();
 	if (init_philosophers(config) != 0)
 		return (-1);
 	return (0);
